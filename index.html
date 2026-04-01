@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imam Ud Doula | 3D Portfolio</title>
+    <meta name="description" content="Portfolio of Imam Ud Doula - AI/ML Engineer, Teaching Assistant, and CSE Club Co-ordinator. Exploring AI-driven and embedded systems.">
+    
+    <!-- Unified Branding & Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Imam Ud Doula | AI/ML & Embedded Systems">
+    <meta property="og:description" content="Professional portfolio of Imam Ud Doula - CSE Club Co-ordinator & Research Assistant at CUB.">
+    <meta property="og:image" content="/og-image.png">
+    <meta property="og:url" content="https://imam-ud-doula.vercel.app/">
+    
+    <!-- Link Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/style.css">
+    <link rel="preload" href="https://prod.spline.design/6qNeVMmoVi-cO7im/scene.splinecode" as="fetch" crossorigin="anonymous">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <!-- Custom Loader -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <span class="loader-text">INITIALIZING NEURAL NETS</span>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky-nav">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="/logo.png" alt="IUD Logo" class="logo-img" decoding="async">
+            </a>
+            <ul class="nav-links desktop-only">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#leadership">Leadership</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-cta desktop-only">
+                <a href="#contact" class="btn btn-primary btn-sm">HIRE ME</a>
+            </div>
+            
+            <!-- Hamburger Toggle -->
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Drawer Overlay -->
+    <div class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-content">
+            <button class="close-menu" id="close-menu" aria-label="Close Navigation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <ul class="mobile-nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#leadership">Leadership</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="spline-wrapper" id="spline-container">
+            <canvas id="canvas3d"></canvas>
+        </div>
+        <div class="hero-overlay"></div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- About Section (1st content) -->
+        <section id="about" class="section about">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="display-lg">ABOUT ME</h2>
+                </div>
+                <div class="about-content">
+                    <p class="body-lg reveal-text">
+                        Hello! I'm a Computer Science and Engineering professional specializing in <span class="highlight">AI-driven energy systems</span>, <span class="highlight">embedded technologies</span>, and <span class="highlight">data analytics</span>. Over the past five years, I’ve combined hands-on experience in high-volume customer service across Canada with cutting-edge technical work in <span class="highlight">microgrid load prediction</span>, <span class="highlight">ESP32 edge-based sensing</span>, and <span class="highlight">energy-aware optimization frameworks</span>.
+                    </p>
+                    <p class="body-md reveal-text" style="opacity:0.8; margin-bottom:2rem">
+                        I build systems that are not only technically sound but also user-centric, scalable, and ready to deliver real-world impact. From designing intelligent energy solutions to creating AI-powered analytics pipelines, my work bridges research and application, ensuring that innovation meets practical results.
+                    </p>
+                    <p class="body-md reveal-text" style="opacity:0.8">
+                        Currently, I contribute as a <span class="highlight">Research and Teaching Assistant</span> at the Canadian University of Bangladesh, mentoring students, developing prototypes, and supporting applied AI projects. I am now looking to bring this rare blend of technical expertise and operational insight to forward-thinking tech teams in Dhaka, where I can help design and implement impactful AI and embedded systems solutions.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section (Moved Up) -->
+        <section id="experience" class="section experience">
+            <div class="container">
+                <h2 class="display-md">PROFESSIONAL EXPERIENCE</h2>
+                <div class="timeline" id="experience-timeline" style="margin-top:4rem"></div>
+            </div>
+        </section>
+
+        <!-- Education & Awards -->
+        <section id="education" class="section">
+            <div class="container">
+                <div class="dual-grid">
+                    <div class="edu-column">
+                        <h2 class="display-md" style="margin-bottom:3rem">EDUCATION</h2>
+                        <div id="edu-list" class="edu-cards"></div>
+                    </div>
+                    <div class="awards-column">
+                        <h2 class="display-md" style="margin-bottom:3rem">HONORS & AWARDS</h2>
+                        <div id="awards-list" class="awards-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership & Volunteering -->
+        <section id="leadership" class="section">
+            <div class="container">
+                <h2 class="display-sm" style="margin-bottom:1rem; color:var(--primary)">LEADERSHIP & VOLUNTEERING</h2>
+                <p class="body-md" style="opacity:0.4; margin-bottom:4rem">EXTRACURRICULAR ACTIVITIES</p>
+                <div id="leadership-list" class="leadership-grid"></div>
+            </div>
+        </section>
+
+        <!-- Technical Toolkit -->
+        <section id="skills" class="section skills">
+            <div class="container">
+                <h2 class="display-md">TECHNICAL SKILLS</h2>
+                <div class="toolkit-grid">
+                    <div class="neural-card skill-card">
+                        <div class="label-md">CORE ENGINEERING</div>
+                        <h3 class="display-sm" style="margin-bottom:1rem; color:#fff">AI & Embedded Systems</h3>
+                        <p class="body-md" style="opacity:0.5">Specialized in deep learning architectures, time-series forecasting, and low-latency IoT integration.</p>
+                        <div class="skills-wrapper" id="engineering-chips"></div>
+                    </div>
+                    <div class="neural-card skill-card">
+                        <div class="label-md">OPERATIONAL CX</div>
+                        <h3 class="display-sm" style="margin-bottom:1rem; color:#fff">Service & Resolution</h3>
+                        <p class="body-md" style="opacity:0.5">Excellence in stakeholder management, CRM orchestration, and high-stakes conflict resolution.</p>
+                        <div class="skills-wrapper" id="ops-chips"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section projects">
+            <div class="container">
+                <div class="section-header" style="margin-bottom:5rem">
+                    <h2 class="display-md">PROJECT REPOSITORY</h2>
+                    <p class="label-md">GITHUB CONTRIBUTIONS</p>
+                </div>
+                
+                <div id="github-projects" class="projects-grid" style="margin-bottom:4rem"></div>
+                
+                <div style="display:flex; justify-content:center; margin-top:2rem">
+                    <button id="view-more-repos" class="btn btn-secondary" style="display:none">VIEW ALL REPOSITORIES →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="display-md">GET IN TOUCH</h2>
+                    <p class="body-md">I am available for on-site, hybrid, and remote opportunities in Dhaka and worldwide.</p>
+                </div>
+                
+                <div class="contact-dashboard">
+                    <div class="contact-info-panel">
+                        <div class="label-md">CONTACT DETAILS</div>
+                        
+                        <a href="mailto:imamshadin004@gmail.com" class="contact-method">
+                            <div class="method-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            </div>
+                            <div class="method-text">
+                                <h4>GMAIL</h4>
+                                <p>imamshadin004@gmail.com</p>
+                            </div>
+                        </a>
+                        
+                        <a href="tel:+8801614886478" class="contact-method">
+                            <div class="method-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            </div>
+                            <div class="method-text">
+                                <h4>PHONE</h4>
+                                <p>+8801614886478</p>
+                            </div>
+                        </a>
+                        
+                        <a href="https://linkedin.com/in/imam-ud-doula" target="_blank" class="contact-method">
+                            <div class="method-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                            </div>
+                            <div class="method-text">
+                                <h4>LINKEDIN</h4>
+                                <p>linkedin.com/in/imam-ud-doula</p>
+                            </div>
+                        </a>
+
+                        <a href="https://github.com/imamdoula004" target="_blank" class="contact-method">
+                            <div class="method-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                            </div>
+                            <div class="method-text">
+                                <h4>GITHUB</h4>
+                                <p>github.com/imamdoula004</p>
+                            </div>
+                        </a>
+
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div class="method-text">
+                                <h4>LOCATION</h4>
+                                <p>Dhaka, Bangladesh</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form-panel">
+                        <div class="label-md">SEND A MESSAGE</div>
+                        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                            <input type="hidden" name="access_key" value="be3ae8a0-35f6-409d-8df2-d4a080dc6a80">
+                            <div class="input-group">
+                                <input type="text" id="name" name="name" required placeholder=" ">
+                                <label for="name">NAME</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="email" id="email" name="email" required placeholder=" ">
+                                <label for="email">EMAIL</label>
+                            </div>
+                            <div class="input-group">
+                                <textarea id="message" name="message" required placeholder=" " style="min-height:120px"></textarea>
+                                <label for="message">MESSAGE</label>
+                            </div>
+                            <button type="submit" id="submit-btn" class="btn btn-primary" style="width:100%">SEND MESSAGE →</button>
+                            <div id="form-result" style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem; font-family: var(--font-header);"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <p class="copyright">© 2026 IMAM UD DOULA. ALL RIGHTS RESERVED.</p>
+            <div class="footer-links">
+                <a href="https://linkedin.com/in/imam-ud-doula" target="_blank" class="footer-link">LINKEDIN</a>
+                <a href="https://github.com/imamdoula004" target="_blank" class="footer-link">GITHUB</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
