@@ -239,38 +239,69 @@ function initLenis() {
 // --- GLOBAL SCALE PERFORMANCE OPTIMIZATIONS ---
 gsap.config({ force3D: true });
 
+// --- SPLINE APPLICATIONS MANAGER ---
+let globalApp = null;
+
 async function initSpline() {
-    const canvas = document.getElementById('canvas3d');
-    const hero = document.getElementById('hero');
-    if (!canvas || !hero) return;
+    const heroCanvas = document.getElementById('canvas-hero');
+    if (!heroCanvas) return;
 
-    const splineApp = new Application(canvas);
-    
-    // Performance V2: Cap pixel ratio to 1.5 (Avoids massive rendering overhead on 4K/phones)
     const ratio = Math.min(window.devicePixelRatio, 1.5);
-    
-    try {
-        await splineApp.load(SPLINE_SCENE);
-        hideLoader();
 
-        // Performance V2: "Deadstop" Logic (API-Official)
-        // Halts the rendering loop completely when off-screen
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    splineApp.play();
-                } else {
-                    splineApp.stop(); // Stops GPU processing safely
-                }
-            });
-        }, { threshold: 0 });
+    try {
+        globalApp = new Application(heroCanvas);
+        await globalApp.load(SPLINE_SCENE);
         
-        observer.observe(hero);
+        // Initial state for Hero
+        const obj = globalApp.findObjectByName('Scene') || globalApp.findObjectByName('Group');
+        if (obj) {
+            obj.rotation.y = 0;
+            obj.scale.set(0.9, 0.9, 0.9); /* Zoomed out slightly */
+            obj.position.set(0, 0, 0);
+        }
+
+        setupGlobalScrollSync(globalApp);
+        hideLoader();
 
     } catch (err) {
-        console.error('Spline loading issue', err);
+        console.error('Spline init issue', err);
         hideLoader();
     }
+}
+
+/**
+ * UNIFIED SCROLL SYNC (PASSTHROUGH VERSION)
+ * High-speed scroll sync that allows native Spline hover events to function.
+ */
+function setupGlobalScrollSync(app) {
+    gsap.to({}, {
+        scrollTrigger: {
+            trigger: "body",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0, 
+            onUpdate: (self) => {
+                const p = self.progress;
+                
+                try {
+                    const obj = app.findObjectByName('Scene') || app.findObjectByName('Group');
+                    if (obj) {
+                        // 1. Core Scroll Rotation
+                        // Only rotating on Y so internal mouse-follow can handle other axes
+                        const turns = 8;
+                        obj.rotation.y = p * turns * 2 * Math.PI;
+                        
+                        // 2. Atmospheric Scale Sync (Reduced Intensity)
+                        const scaleMod = 0.9 + Math.sin(p * Math.PI) * 0.3;
+                        obj.scale.set(scaleMod, scaleMod, scaleMod);
+                    }
+
+                    // 3. Pass Scroll data to Spline Variables
+                    app.setVariable('Scroll', p * 100);
+                } catch (e) {}
+            }
+        }
+    });
 }
 
 function hideLoader() {
