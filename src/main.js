@@ -8,16 +8,38 @@ gsap.registerPlugin(ScrollTrigger);
 // --- VERIFIED RESUME DATA (APRIL 2026) ---
 const SPLINE_SCENE = 'https://prod.spline.design/6qNeVMmoVi-cO7im/scene.splinecode';
 
-const SKILLS_ENGINEERING = [
-    'Python', 'NumPy', 'Pandas', 'Scikit-learn', 'TensorFlow', 'Time-Series Forecasting', 
-    'Data Analytics', 'SQL', 'ESP32', 'IoT Integration', 'Docker', 'REST APIs', 
-    'System Architecture', 'Java', 'C/C++', 'Android Studio', 'Embedded Systems', 'YOLOv8', 'MediaPipe', 'OpenCV'
+const SKILLS_AI = [
+    'AI for Time Series Forecasting', 'Recommendation Systems', 'Data Analytics', 
+    'Predictive Modeling', 'Personalization', 'Context-Aware AI', 'Jupyter Notebook', 
+    'NumPy', 'Pandas', 'Scikit-learn', 'TensorFlow', 'YOLOv8', 'MediaPipe', 'OpenCV'
+];
+
+const SKILLS_SOFTWARE = [
+    'Python', 'C/C++', 'Java', 'JavaScript', 'TypeScript', 'HTML', 'CSS', 'React', 
+    'SQL', 'MySQL', 'SaaS Development', 'WebGL', '3D WebGL', 'Interactive Web Design', 'REST APIs'
+];
+
+const SKILLS_HARDWARE = [
+    'ESP32', 'Arduino', 'Embedded Programming', 'Hardware Simulation', 'Sensor Integration', 
+    'Robotics & Autonomous Systems', 'Android Studio', 'IoT Integration'
+];
+
+const SKILLS_TOOLS = [
+    'Git', 'GitBash', 'CodeBlocks', 'Notepad++', 'Linux System Administration', 
+    'VMware', 'Oracle VM VirtualBox', 'Citrix Workspace', 'OneView', 'OneSource', 
+    'Microsoft Office', 'Adobe Photoshop', 'Adobe Lightroom', 'Bug Tracking', 'Analytics', 'Docker'
 ];
 
 const SKILLS_OPS = [
-    'CRM Systems', 'Salesforce', 'Zendesk', 'Microsoft Dynamics', 'Conflict Resolution', 
-    'Stakeholder Communication', 'KPI Tracking', 'Cross-cultural Communication', 
-    'High-volume Operations', 'Project Mentoring', 'Microsoft Analytics', 'OneSource', 'Citrix Workspace'
+    'CRM Systems', 'Salesforce', 'Zendesk', 'Genesys', 'Microsoft Dynamics', 
+    'Client Issue Resolution', 'Customer Escalation Management', 'Customer Journey Mapping', 
+    'Negotiation & Contract Handling', 'Order Management & Fulfillment', 'Conflict Resolution', 
+    'Technical Support', 'Stakeholder Communication', 'KPI Tracking'
+];
+
+const SKILLS_CORE = [
+    'Remote Work', 'Time Management', 'Problem Solving', 'Analytical Thinking', 'Teamwork', 
+    'Project Mentoring', 'Cross-cultural Communication', 'High-volume Operations'
 ];
 
 const EXPERIENCE = [
@@ -227,10 +249,10 @@ function setupMobileNav() {
 
 function initLenis() {
     const lenis = new Lenis({ 
-        duration: 1.2, 
-        lerp: 0.1, 
+        duration: 0.5, 
+        lerp: 0.2, 
         smoothWheel: true,
-        wheelMultiplier: 1.1
+        wheelMultiplier: 3.5
     });
     function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
@@ -324,8 +346,12 @@ function populateStaticContent() {
             el.appendChild(chip);
         });
     };
-    populateChips('engineering-chips', SKILLS_ENGINEERING);
+    populateChips('ai-chips', SKILLS_AI);
+    populateChips('software-chips', SKILLS_SOFTWARE);
+    populateChips('hardware-chips', SKILLS_HARDWARE);
+    populateChips('tool-chips', SKILLS_TOOLS);
     populateChips('ops-chips', SKILLS_OPS);
+    populateChips('core-chips', SKILLS_CORE);
 
     // Experience Timeline
     const timeline = document.getElementById('experience-timeline');
@@ -391,22 +417,66 @@ function populateStaticContent() {
     });
 }
 
+const FEATURED_REPOS = [
+    'prime-imports-bd',
+    'AI-Hybrid-EMPC-DataCenter-Cooling',
+    'Music-Context-Recommendation-Engine',
+    '3D-Interactive-Solar-System',
+    'Particle-Physics-Inspired-Headphone-Audio-Enhancer'
+];
+
+const HIDDEN_REPOS = [
+    'job-portfolio',
+    '3d-portfolio-website',
+    'wedding-digital-twin',
+    '3d-portfolio-imam',
+    'furniture-store-db',
+    'Structured-Programming-Language-Class-Tasks',
+    'imamdoula004'
+];
+
 async function fetchGitHubProjects() {
     const grid = document.getElementById('github-projects');
     const viewMoreBtn = document.getElementById('view-more-repos');
     if (!grid) return;
     
     try {
-        const res = await fetch(`https://api.github.com/users/imamdoula004/repos?sort=pushed&per_page=100`, {
-            headers: { Authorization: `token ${GITHUB_PAT}` }
-        });
+        // Safe check for GITHUB_PAT - use Vite environment variable if available
+        let token = null;
+        try {
+            if (typeof GITHUB_PAT !== 'undefined') token = GITHUB_PAT;
+            else if (import.meta.env.VITE_GITHUB_PAT) token = import.meta.env.VITE_GITHUB_PAT;
+        } catch (e) {}
+
+        const fetchOptions = {};
+        if (token) {
+            fetchOptions.headers = { Authorization: `token ${token}` };
+        }
+
+        const res = await fetch(`https://api.github.com/users/imamdoula004/repos?sort=pushed&per_page=100`, fetchOptions);
+        if (!res.ok) throw new Error('GitHub API responded with ' + res.status);
+        
         const repos = await res.json();
         
-        // Filter out unwanted repos
-        ALL_GITHUB_REPOS = repos.filter(repo => {
+        // 1. Filter: Remove forks and hidden repos
+        const activeRepos = repos.filter(repo => {
             const name = repo.name.toLowerCase();
-            const isForbidden = name.includes('3d') || name.includes('furniture') || name.includes('portfolio') || repo.fork;
-            return !isForbidden;
+            const isFork = repo.fork;
+            const isHidden = HIDDEN_REPOS.some(h => name === h.toLowerCase());
+            return !isFork && !isHidden;
+        });
+
+        // 2. Sort: Featured first, then by last pushed
+        ALL_GITHUB_REPOS = activeRepos.sort((a, b) => {
+            const aName = a.name.toLowerCase();
+            const bName = b.name.toLowerCase();
+            const aFeatured = FEATURED_REPOS.some(f => aName === f.toLowerCase());
+            const bFeatured = FEATURED_REPOS.some(f => bName === f.toLowerCase());
+
+            if (aFeatured && !bFeatured) return -1;
+            if (!aFeatured && bFeatured) return 1;
+
+            return new Date(b.pushed_at) - new Date(a.pushed_at);
         });
 
         renderRepos(8);
@@ -419,6 +489,7 @@ async function fetchGitHubProjects() {
             });
         }
     } catch (err) {
+        console.error('GitHub Sync Error:', err);
         grid.innerHTML = '<p class="body-md" style="opacity:0.4">Repository sync currently unavailable.</p>';
     }
 }
